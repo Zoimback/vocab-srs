@@ -21,14 +21,30 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node (with npm cache)
+        if: ${{ hashFiles('package-lock.json') != '' }}
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
 
-      - name: Install dependencies
+      - name: Setup Node (fallback without cache)
+        if: ${{ hashFiles('package-lock.json') == '' }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Warn missing lockfile
+        if: ${{ hashFiles('package-lock.json') == '' }}
+        run: echo "::warning::package-lock.json is missing. Falling back to npm install (cache disabled)."
+
+      - name: Install dependencies (npm ci)
+        if: ${{ hashFiles('package-lock.json') != '' }}
         run: npm ci
+
+      - name: Install dependencies (fallback)
+        if: ${{ hashFiles('package-lock.json') == '' }}
+        run: npm install
 
       - name: Build
         run: npm run build
