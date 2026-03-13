@@ -38,7 +38,10 @@
 </script>
 
 <div class="container">
-  <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:10px;">
+  <div
+    class="row app-header"
+    style="justify-content:space-between;align-items:center;margin-bottom:10px;"
+  >
     <div>
       <h1>vocab-srs</h1>
       <p style="margin:6px 0 0;color:var(--muted);font-weight:600;">
@@ -49,7 +52,7 @@
   </div>
 
   <div
-    class="row panel"
+    class="row panel app-nav"
     style="margin-bottom:12px;align-items:center;justify-content:space-between;"
   >
     <button class="btn" data-testid="nav-home" on:click={() => (route = 'home')}>Inicio</button>
@@ -69,3 +72,21 @@
     <Stats />
   {/if}
 </div>
+
+<style>
+  @media (max-width: 700px) {
+    .app-header {
+      align-items: flex-start !important;
+      gap: 12px;
+    }
+
+    .app-nav {
+      gap: 8px;
+    }
+
+    .app-nav .btn {
+      flex: 1 1 100%;
+      width: 100%;
+    }
+  }
+</style>
